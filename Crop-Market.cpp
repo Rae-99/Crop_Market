@@ -12,8 +12,6 @@ class user {
     public :
 };
 
-
-
 class buyer {
     private:
 
@@ -98,7 +96,7 @@ int main() {
         }
 
         b1.transaction(t2);
-        if(t2==1||3){
+        if(t2==1||t2==3){
             goto restart;
         }
 
