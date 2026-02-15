@@ -33,15 +33,17 @@ class buyer {
             cout<<"Enter your choice (0 to EXIT) : ";
             cin>>choice;
 
-
-
+            if(choice==0){
+                return;
+            }
+            
             //display details about selected product
 
         }
 
 
-        void transaction(){
-            int temp1, temp2;
+        void transaction(int& t2){
+            int temp1;
             cout<<"Do you want to buy this product?\n 1. Yes \n2. No ";
             cin>>temp1;
 
@@ -49,45 +51,57 @@ class buyer {
                 cout<<"How much do you wish to buy?";
                 cin>>quant;
 
-                if(q>100){
-                    amount=pLast*q;
+                if(quant>100){
+                    amount=1000*quant;    // Temporarily replacing pLast by 1000
                 }
-                else if(q>50){
-                    amount=p100*q;
+                else if(quant>50){
+                    amount=900*quant;     // Temporarily replacing pLast by 900
                 }
                 else{
-                    amount=p50*q;
+                    amount=800*quant;      // Temporarily replacing pLast by 800
                 }
 
                 cout<<"Total amount = "<<amount;
 
                 cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item";
-                cin>>temp2;
+                cin>>t2;
 
-                if(temp2==1){
-                    cart.push_back({choice, quant, amount});
-                    goto ; //to be decided
-                }
-                else if(temp2==2){
+                if(t2==1){
                     cart.push_back({choice, quant, amount});
                     return;
                 }
-                else if(temp2==3){
-                    goto ; //to be decided
+                else if(t2==2){
+                    cart.push_back({choice, quant, amount});
+                    return;
                 }
-
-
-            }
-    
+                else if(t2==3){
+                    return;
+                }
+            }    
         }
-
-
-
 };
 
 
 int main() {
-    
+    int k, t2;
+    frontpage:
+    cout<<"Buy or Sell";
+    //  (Temporary)   1. Buy    2. Sell
+    cin>>k;
+    if(k==1){
+        buyer b1;
 
+        restart:
+        b1.disp_list();
+        if(b1.choice==0){
+            goto frontpage;
+        }
+
+        b1.transaction(t2);
+        if(t2==1||3){
+            goto restart;
+        }
+
+    }
     return 0;
 }
