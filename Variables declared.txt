@@ -1,0 +1,39 @@
+variables used:
+
+
+b1 - obj of class buyer 
+
+
+vector<vector<int>> cart - shopping Cart
+
+
+string 
+username - username
+
+
+
+int 
+choice - prdt id of chosen prdt 
+quant - quantity
+amount - quant*price
+
+temp1 (local in transaction() ) - confirmation of purchase of current prdt
+t2 (in int main(), passed by reference in transaction(int& t2) ) - for providing options of checkout, add to cart, exit 
+t3 
+
+
+total - total amount 
+conf - for confirmation of purchase
+
+
+
+
+
+
+labels:
+
+
+
+
+frontpage - interface just after login
+restart - at stage of displaying prdt list 
