@@ -1,16 +1,75 @@
 #include <iostream>
 #include<string>
 #include<vector>
+#include <unordered_map>
 
 using namespace std;
 
 
-class user {
-    private :
-        string username;
-        
-    public :
+class login {
+public:
+    void run() {
+        unordered_map<string, string> users;
+        string username, password;
+
+        while (true) {
+            cout << "1. Log in\n2. Sign up\n0. Exit\n";
+            cout << "Choose option: ";
+            int a;
+            cin >> a;
+
+            switch (a) {
+                case 1:
+                    cout << "Enter username: ";
+                    cin >> username;
+                    cout << "Enter password: ";
+                    cin >> password;
+
+                    if (users.count(username) && users[username] == password) {
+                        cout << "Hello! " << username << "Welcome Back\n";
+                        return;
+                    } 
+                    else {
+                        cout << "Incorrect username and password pair\n";
+                    }
+                    break;
+
+                case 2: {
+                    cout << "Enter username: ";
+                    cin >> username;
+
+                    
+
+                    bool passwordsMatch = false;
+                    do {
+                        cout << "Enter password: ";
+                        cin >> password;
+                        cout << "Reenter password: ";
+                        string password_re;
+                        cin >> password_re;
+
+                        if (password == password_re) {
+                            passwordsMatch = true;
+                            users[username] = password;
+                            cout << "Your account has been created\n";
+                        } else {
+                            cout << "Passwords don't match. Try again.\n";
+                        }
+                    } while (!passwordsMatch);
+                    break;
+                }
+
+                case 0:
+                    return;
+
+                default:
+                    cout << "Wrong input\n";
+            }
+        }
+    }
 };
+
+
 
 class buyer {
     private:
@@ -173,38 +232,18 @@ public:
             cin >> pLast;
         }
     }
-
-    void run() {
-        int ch;
-
-        do {
-            product_info();
-            price_info();
-
-            cout << "1. Confirm\n2. Add more products\n0. Exit\n";
-            cin >> ch;
-
-        } while (ch == 2);
-
-        if (ch == 0) {
-            cout << "Your changes will not be saved.\n";
-            cout << "Press 0 to continue.\n";
-            return;
-        }
-
-        if (ch == 1) {
-            cout << "Your changes are saved.\n";
-            // add data to file system
-        }
-    }
 };
 
 
 int main() {
-    int k;
 
+    login l1;
+    l1.run();
+
+
+    int k;
     frontpage:
-    cout<<"Buy or Sell ( 1. Buy    2. Sell  0. EXIT) : ";    //  (Temporary)
+    cout<<"Buy or Sell ( 1. Buy    2. Sell  0. EXIT) : ";    //  (Temporary) Loginpage will come before
     cin>>k;
 
     if(k==0)
@@ -234,8 +273,30 @@ int main() {
     }
 
     else if(k==2){
-         sell obj;
-         obj.run();
+         sell s1;
+         int ch;
+
+        do {
+            s1.product_info();
+            s1.price_info();
+
+            cout << "1. Confirm\n2. Add more products\n0. Exit\n";
+            cin >> ch;
+
+        } while (ch == 2);
+
+        if (ch == 0) {
+            cout << "Your changes will not be saved.\n";
+            cout << "Press 0 to continue.\n";
+            goto frontpage;
+        }
+
+        if (ch == 1) {
+            cout << "Your changes are saved.\n";
+            // add data to file system
+
+            goto frontpage;
+        }
     }
 
 

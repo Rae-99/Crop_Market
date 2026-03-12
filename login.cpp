@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 class login {
 public:
     void run() {
-        map<string, string> users;
+        unordered_map<string, string> users;
         string username, password;
 
         while (true) {
@@ -23,7 +23,8 @@ public:
                     cin >> password;
 
                     if (users.count(username) && users[username] == password) {
-                        cout << "Hello " << username << ", welcome back\n";
+                        cout << "Hello! " << username << "Welcome Back\n";
+
                     } else {
                         cout << "Incorrect username and password pair\n";
                     }
@@ -32,6 +33,8 @@ public:
                 case 2: {
                     cout << "Enter username: ";
                     cin >> username;
+
+                    
 
                     bool passwordsMatch = false;
                     do {
