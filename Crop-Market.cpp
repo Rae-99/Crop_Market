@@ -18,7 +18,7 @@ class buyer {
 
     public:
         int amount;
-        char choice;
+        int choice, t2=3, temp1;
         int quant; //quantity 
         vector<vector<int>> cart;  //{'prdt id or choice', 'quantity', 'amount'}
 
@@ -29,14 +29,14 @@ class buyer {
             //     3. rajma
             // 
 
-            cout<<"Enter your choice (0 to EXIT) : ";
+            cout<<"Enter your choice (-1. EXIT     0. Visit Cart)  :  ";
             cin>>choice;
 
-            if(choice=='E'){
+            if(choice==-1){
                 return;
             }
 
-            else if(choice=='C'){
+            else if(choice==0){
                 disp_cart();
                 disp_list();
 
@@ -47,13 +47,14 @@ class buyer {
         }
 
 
-        void transaction(int& t2){
-            int temp1;
-            cout<<"Do you want to buy this product?\n 1. Yes \n2. No ";
-            cin>>temp1;
+        void transaction(){
 
+
+            cout<<"Do you want to buy this product?\n(1. Yes 2. No) : ";
+            cin>>temp1;
+            
             if(temp1==1){
-                cout<<"How much do you wish to buy?\n";
+                cout<<"How much do you wish to buy? : ";
                 cin>>quant;
 
                 if(quant>100){
@@ -68,7 +69,7 @@ class buyer {
 
                 cout<<"Total amount = "<<amount;
 
-                cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item";
+                cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item \n";
                 cin>>t2;
 
                 if(t2==1){
@@ -89,7 +90,7 @@ class buyer {
         }
 
 
-        void payment(char& conf){
+        void payment() {
             
             char conf;
             
@@ -99,39 +100,24 @@ class buyer {
 
 
             Confirmation:
-            cout<<"Confirm Payment? (Y/N)" ;
+            cout<<"Confirm Payment? (Y/N) : " ;
             cin>>conf;
             
-            switch (conf)
-            {
-            case 'Y':
-                 cout<<"Payment Successful!";
-                //something
-                break;
+            switch (conf) {
 
-            case 'N':
-                return;
+                case 'Y':
+                case 'y':
+                    cout<<"Payment Successful!";
+                    //something
+                     break;
+
+                case 'N':
+                case 'n':
+                    return;
             
-            default:
-                cout<<"Invalid input, retry";
-                goto Confirmation;
-            }
-
-
-
-
-            if(conf=='Y'){
-                cout<<"Payment Successful!";
-                //something
-            }
-            
-            else if(conf=='N'){
-                return;
-            }
-
-            else{
-                cout<<"Invalid input, retry";
-
+                default:
+                    cout<<"Invalid input, retry";
+                    goto Confirmation;
             }
                 
     
@@ -143,13 +129,13 @@ class buyer {
             cout<<"*Your Order Summary*\n";
 
             if(cart.size()==0)
-                cout<<"Your Cart is empty";
+                cout<<"Your Cart is empty\n";
             else{
-                cout<<"     Product ID      Quantity        Amount ";
+                cout<<"     Product ID      Quantity        Amount\n";
                 for (int i=0; i<cart.size(); i++){
-                    cout<<(i+1)<<". "<<cart[i][1]<<"      "<<cart[i][2]<<"      ₹ "<<cart[i][3]<<"\n";
+                    cout<<(i+1)<<".        "<<cart[i][0]<<"                "<<cart[i][1]<<"          ₹ "<<cart[i][2]<<"\n";
                 
-                    total+=cart[i][3];
+                    total+=cart[i][2];
 
             }
             cout<<"Total Amount = "<<total<<"\n";
@@ -163,29 +149,37 @@ class buyer {
 
 
 int main() {
-    int k, t2; 
-    char t3;
+    int k;
 
 
     frontpage:
-    cout<<"Buy or Sell ( 1. Buy    2. Sell ) : ";    //  (Temporary)
+    cout<<"Buy or Sell ( 1. Buy    2. Sell  0. EXIT) : ";    //  (Temporary)
     cin>>k;
-    if(k==1){
-        buyer b1;
 
+    if(k==0)
+        return 0;
+
+    else if(k==1){
+        buyer b1;
         restart:
         b1.disp_list();
-        if(b1.choice==0){
+        if(b1.choice==-1){
             goto frontpage;
         }
 
-        b1.transaction(t2);
-        if(t2==1||t2==3){
+        b1.transaction();
+        if(b1.temp1!=1 && b1.temp1!=2){
+            cout<<"Incorrect Input\n";
             goto restart;
         }
 
-        b1.payment(t3);
 
+        if(b1.t2==1||b1.t2==3){
+            goto restart;
+        }
+
+        b1.payment();
+            // jump to 
     }
     return 0;
 }
