@@ -7,10 +7,14 @@ using namespace std;
 
 
 class login {
+private:
+    unordered_map<string, string> users;
+    string username, password;
+
+
 public:
-    void run() {
-        unordered_map<string, string> users;
-        string username, password;
+    bool run() {
+        
 
         while (true) {
             cout << "1. Log in\n2. Sign up\n0. Exit\n";
@@ -26,8 +30,8 @@ public:
                     cin >> password;
 
                     if (users.count(username) && users[username] == password) {
-                        cout << "Hello! " << username << "Welcome Back\n";
-                        return;
+                        cout << "Hello " << username << "!! Welcome Back\n";
+                        return true;
                     } 
                     else {
                         cout << "Incorrect username and password pair\n";
@@ -60,25 +64,29 @@ public:
                 }
 
                 case 0:
-                    return;
+                    return false;
 
                 default:
                     cout << "Wrong input\n";
             }
         }
     }
+
+    string getusername(){       //Getter for Username
+        return username;
+    }
+
 };
 
 
 
 class buyer {
     private:
-
+        int amount, choice, quant;
 
     public:
-        int amount;
-        int choice, t2=3, temp1;
-        int quant; //quantity 
+        
+        int temp2=3, temp1;
         vector<vector<int>> cart;  //{'prdt id or choice', 'quantity', 'amount'}
 
         void disp_list(){
@@ -88,8 +96,9 @@ class buyer {
             //     3. rajma
             // 
 
-            cout<<"Enter your choice (-1. EXIT     0. Visit Cart)  :  ";
+            cout<<"Enter your choice ( -1. EXIT     0. Visit Cart )  :  ";
             cin>>choice;
+
 
             if(choice==-1){
                 return;
@@ -103,6 +112,11 @@ class buyer {
             //else display details about selected product
 
         }
+
+        int getchoice(){        //Getter for choice
+            return choice;
+        }
+
 
 
         void transaction(){
@@ -128,17 +142,17 @@ class buyer {
                 cout<<"Total amount = "<<amount;
 
                 cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item \n";
-                cin>>t2;
+                cin>>temp2;
 
-                if(t2==1){
+                if(temp2==1){
                     cart.push_back({choice, quant, amount});
                     return;
                 }
-                else if(t2==2){
+                else if(temp2==2){
                     cart.push_back({choice, quant, amount});
                     return;
                 }
-                else if(t2==3){
+                else if(temp2==3){
                     return;
                 }
             }  
@@ -202,9 +216,13 @@ class buyer {
 
 
 class sell {
-public:
+private:
     int p, quantity, p50 = 0, p100 = 0, pLast = 0;
     char grade;
+
+
+public:
+    
 
     void product_info() {
         cout << "Enter product number: ";
@@ -236,24 +254,29 @@ public:
 
 
 int main() {
+    string username;
 
+    loginpage:              //Login
     login l1;
-    l1.run();
+    if(!l1.run())
+        return 0;       //Exit Program
+
+    username=l1.getusername();      
 
 
     int k;
     frontpage:
-    cout<<"Buy or Sell ( 1. Buy    2. Sell  0. EXIT) : ";    //  (Temporary) Loginpage will come before
+    cout<<"Buy or Sell ( 1. Buy    2. Sell  0. EXIT) : ";
     cin>>k;
 
     if(k==0)
-        return 0;
+        goto loginpage;
 
-    else if(k==1){
+    else if(k==1){          //BUY
         buyer b1;
         restart:
         b1.disp_list();
-        if(b1.choice==-1){
+        if(b1.getchoice()==-1){
             goto frontpage;
         }
 
@@ -264,15 +287,18 @@ int main() {
         }
 
 
-        if(b1.t2==1||b1.t2==3){
+        if(b1.temp2==1||b1.temp2==3){
             goto restart;
         }
 
         b1.payment();
-            // jump to        
+        goto loginpage;   
     }
 
-    else if(k==2){
+
+
+
+    else if(k==2){            //SELL
          sell s1;
          int ch;
 
