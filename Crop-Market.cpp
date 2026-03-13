@@ -222,8 +222,6 @@ private:
 
 
 public:
-    
-
     void product_info() {
         cout << "Enter product number: ";
         cin >> p;
@@ -274,7 +272,7 @@ int main() {
 
     else if(k==1){          //BUY
         buyer b1;
-        restart:
+        restartb:
         b1.disp_list();
         if(b1.getchoice()==-1){
             goto frontpage;
@@ -283,12 +281,12 @@ int main() {
         b1.transaction();
         if(b1.temp1!=1 && b1.temp1!=2){
             cout<<"Incorrect Input\n";
-            goto restart;
+            goto restartb;
         }
 
 
         if(b1.temp2==1||b1.temp2==3){
-            goto restart;
+            goto restartb;
         }
 
         b1.payment();
@@ -301,15 +299,12 @@ int main() {
     else if(k==2){            //SELL
          sell s1;
          int ch;
-
-        do {
+        restarts:
             s1.product_info();
             s1.price_info();
 
             cout << "1. Confirm\n2. Add more products\n0. Exit\n";
             cin >> ch;
-
-        } while (ch == 2);
 
         if (ch == 0) {
             cout << "Your changes will not be saved.\n";
@@ -317,12 +312,18 @@ int main() {
             goto frontpage;
         }
 
-        if (ch == 1) {
-            cout << "Your changes are saved.\n";
-            // add data to file system
+        else{
+             // add data to file system
+            if (ch == 1) {
+                cout << "Your changes are saved.\n";
+                goto frontpage;
+            }
+            else if(ch == 2)
+                goto restarts;
 
-            goto frontpage;
+
         }
+        
     }
 
 
