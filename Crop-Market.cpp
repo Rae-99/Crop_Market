@@ -7,7 +7,7 @@ using namespace std;
 
 
 class login {
-private:
+protected:
     unordered_map<string, string> users;
     string username, password;
 
@@ -80,7 +80,7 @@ public:
 
 
 
-class buyer {
+class buyer : public login {
     private:
         int amount, choice, quant;
 
@@ -215,7 +215,7 @@ class buyer {
 };
 
 
-class sell {
+class sell : public login {
 private:
     int p, quantity, p50 = 0, p100 = 0, pLast = 0;
     char grade;
@@ -292,8 +292,6 @@ int main() {
         b1.payment();
         goto loginpage;   
     }
-
-
 
 
     else if(k==2){            //SELL
