@@ -34,6 +34,13 @@ labels:
 
 
 
+loginpage - to loginpage
+reenter - reenter username/password 
 
 frontpage - interface just after login
-restart - at stage of displaying prdt list 
+
+restartb - at stage of displaying prdt list
+confirmation - payment confirmation
+
+restarts - at stage of intaking new products
+

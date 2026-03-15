@@ -17,14 +17,14 @@ public:
         
 
         while (true) {
-            cout << "1. Log in\n2. Sign up\n0. Exit\n";
+            cout << "WELCOME\n1. Log in\n2. Sign up\n0. Exit\n";
             cout << "Choose option: ";
             int a;
             cin >> a;
 
             switch (a) {
                 case 1:
-                    Reenter:
+                    reenter:
                     cout << "Enter username: ";
                     cin >> username;
                     cout << "Enter password: ";
@@ -36,7 +36,7 @@ public:
                     } 
                     else {
                         cout << "Incorrect username and password pair\n";
-                        goto Reenter;
+                        goto reenter;
                     }
                     break;
 
@@ -168,7 +168,7 @@ class buyer : public login {
             //cout<<"Select payment method (1. UPI     2. Card )";      SHOULD WE IMPLEMENT THIS and HOW??
 
 
-            Confirmation:
+            confirmation:
             cout<<"Confirm Payment? (Y/N) : " ;
             cin>>conf;
             
@@ -186,7 +186,7 @@ class buyer : public login {
             
                 default:
                     cout<<"Invalid input, retry";
-                    goto Confirmation;
+                    goto confirmation;
             }    
         }
 
@@ -304,7 +304,7 @@ int main() {
 
     int k;
     frontpage:
-    cout<<"Buy or Sell ( 1. Buy     2. Sell     3. HelpDesk     0. EXIT ) : ";
+    cout<<"How can we help you today? :)\n( 1. Buy     2. Sell     3. HelpDesk     0. EXIT ) : ";
     cin>>k;
 
     if(k==0)
@@ -367,36 +367,37 @@ int main() {
 
     else if(k==3){              //HELPDESK
 
-    vector<Crop> crops;
-    crops.push_back(Crop("Rice", "high", "high", "high", "monsoon"));               
-    crops.push_back(Crop("Wheat", "high", "moderate", "moderate", "winter"));
-    crops.push_back(Crop("Maize", "moderate", "moderate", "moderate", "summer"));
-    crops.push_back(Crop("Millets", "low", "low", "high", "summer"));
-    crops.push_back(Crop("Sugarcane", "high", "high", "high", "monsoon"));
-
+        vector<Crop> crops;
+        crops.push_back(Crop("Rice", "high", "high", "high", "monsoon"));               
+        crops.push_back(Crop("Wheat", "high", "moderate", "moderate", "winter"));
+        crops.push_back(Crop("Maize", "moderate", "moderate", "moderate", "summer"));
+        crops.push_back(Crop("Millets", "low", "low", "high", "summer"));
+        crops.push_back(Crop("Sugarcane", "high", "high", "high", "monsoon"));
 
     
-    cout<<"Share your farm details and we'll help you get MAXIMUM YEILD!!\n";
+        cout<<"Share your farm details and we'll help you get MAXIMUM YEILD!!\n";
 
-    string soil, water, temp, season;
+        string soil, water, temp, season;
 
-    cout << "Enter soil fertility: ";  
-    cin >> soil;
-    cout << "Enter water supply: ";    
-    cin >> water;
-    cout << "Enter temperature: ";     
-    cin >> temp;
-    cout << "Enter season: ";          
-    cin >> season;
+        cout << "Enter soil fertility: ";  
+        cin >> soil;
+        cout << "Enter water supply: ";    
+        cin >> water;
+        cout << "Enter temperature: ";     
+        cin >> temp;
+        cout << "Enter season: ";          
+        cin >> season;
 
-    cout << "\nRecommended Crops:\n";
+        cout << "\nRecommended Crops:\n";
 
-    for (const Crop& c : crops) {
-        int score = calculateScore(c, soil, water, temp, season);
-        if (score >= 6)
-            cout << c.getName() << " (Score: " << score << ")\n";
-    }
-    }
+        for (const Crop& c : crops) {
+            int score = calculateScore(c, soil, water, temp, season);
+           if (score >= 6)
+               cout << c.getName() << " (Score: " << score << ")\n\n\n";
+        }   
+
+        goto frontpage;
+    }   
 
 
     return 0;
