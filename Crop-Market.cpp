@@ -19,7 +19,7 @@ public:
         while (true) {
             cout << "WELCOME\n1. Log in\n2. Sign up\n0. Exit\n";
             cout << "Choose option: ";
-            int a;
+            int a, b;
             cin >> a;
 
             switch (a) {
@@ -36,7 +36,12 @@ public:
                     } 
                     else {
                         cout << "Incorrect username and password pair\n";
-                        goto reenter;
+                        cout << "1. Retry 2. Go Back "; 
+                        cin>>b;
+                        if(b==1)
+                            goto reenter;
+                        else 
+                            break;
                     }
                     break;
 
