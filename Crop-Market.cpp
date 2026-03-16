@@ -11,10 +11,8 @@ protected:
     unordered_map<string, string> users;
     string username, password;
 
-
 public:
     bool run() {
-        
 
         while (true) {
             cout << "WELCOME\n1. Log in\n2. Sign up\n0. Exit\n";
@@ -205,7 +203,7 @@ class buyer : public login {
             else{
                 cout<<"     Product ID      Quantity        Amount\n";
                 for (int i=0; i<cart.size(); i++){
-                    cout<<(i+1)<<".        "<<cart[i][0]<<"                "<<cart[i][1]<<"          ₹ "<<cart[i][2]<<"\n";
+                    cout<<(i+1)<<".        "<<cart[i][0]<<"            "<<cart[i][1]<<"          ₹ "<<cart[i][2]<<"\n";
                 
                     total+=cart[i][2];
 
@@ -299,7 +297,7 @@ int calculateScore(const Crop& c, const string& soil, const string& water,
 int main() {
     string username;
 
-    loginpage:              //LOGIN
+    loginpage:                  //LOGIN
     login l1;
     if(!l1.run())
         return 0;       //Exit Program
@@ -373,24 +371,24 @@ int main() {
     else if(k==3){              //HELPDESK
 
         vector<Crop> crops;
-        crops.push_back(Crop("Rice", "high", "high", "high", "monsoon"));               
-        crops.push_back(Crop("Wheat", "high", "moderate", "moderate", "winter"));
-        crops.push_back(Crop("Maize", "moderate", "moderate", "moderate", "summer"));
-        crops.push_back(Crop("Millets", "low", "low", "high", "summer"));
-        crops.push_back(Crop("Sugarcane", "high", "high", "high", "monsoon"));
+        crops.push_back(Crop("Rice", "h", "h", "h", "m"));               
+        crops.push_back(Crop("Wheat", "h", "m", "m", "w"));
+        crops.push_back(Crop("Maize", "m", "m", "m", "s"));
+        crops.push_back(Crop("Millets", "l", "l", "h", "s"));
+        crops.push_back(Crop("Sugarcane", "h", "h", "h", "m"));
 
     
         cout<<"Share your farm details and we'll help you get MAXIMUM YEILD!!\n";
 
         string soil, water, temp, season;
 
-        cout << "Enter soil fertility: ";  
+        cout << "Enter soil fertility (- High:h       Moderate:m      Low:l -) : ";  
         cin >> soil;
-        cout << "Enter water supply: ";    
+        cout << "Enter water supply (- High:h     Moderate:m      Low:l -) : ";    
         cin >> water;
-        cout << "Enter temperature: ";     
+        cout << "Enter temperature (- High:h      Moderate:m      Low:l -) : ";     
         cin >> temp;
-        cout << "Enter season: ";          
+        cout << "Enter season (- Monsoon:m        Winter:w        Summer:s -) : ";          
         cin >> season;
 
         cout << "\nRecommended Crops:\n";
@@ -398,12 +396,11 @@ int main() {
         for (const Crop& c : crops) {
             int score = calculateScore(c, soil, water, temp, season);
            if (score >= 6)
-               cout << c.getName() << " (Score: " << score << ")\n\n\n";
+               cout << c.getName() << " (Score: " << score << ")\n";
         }   
-
+        cout<<"\n\n";
         goto frontpage;
     }   
-
 
     return 0;
 }
