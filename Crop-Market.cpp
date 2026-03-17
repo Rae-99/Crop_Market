@@ -124,11 +124,30 @@ class buyer : public login {
 
         void transaction(){
 
-            cout<<"Do you want to buy this product?\n(1. Yes 2. No) : ";
+            cout<<"Do you want to buy this product?\n(1. Yes 2. Buy Sample 3. No) : ";
             cin>>temp1;
             
-            if(temp1==1){
-                cout<<"How much do you wish to buy? : ";
+
+            switch (temp1)
+            {
+            case 1:
+                bulk(choice);
+                break;
+
+            case 2:
+                sample(choice);
+                break;
+
+            case 3:
+                return;
+            
+            default:
+                break;
+            }
+        }    
+        
+        void bulk(int choice){
+            cout<<"How much do you wish to buy? : ";
                 cin>>quant;
 
                 if(quant>100){
@@ -152,26 +171,38 @@ class buyer : public login {
                 }
                 else if(temp2==2){
                     cart.push_back({choice, quant, amount});
-                    return;
+                    payment(choice, cart);
                 }
                 else if(temp2==3){
                     return;
                 }
-            }  
-            else
-                return;
+        }
+
+        void sample(int choice){
+            cout<<"Sample amount is 10kg\n";
+            amount=(1000)*10;           // Temporarily replacing pLast by 1000
+
+            cout<<"1. Checkout     2. Discard this item \n";
+            cin>>temp2;
+            if(temp2==1){
+                payment(choice);
+            }
+
+            else if(temp2==2){
+                
+            }
+
         }
 
 
-        void payment() {
-            char conf;
-            
+        void payment(int choice, vector<vector<int>> cart){
+
             disp_cart();
-                      
+
             //cout<<"Select payment method (1. UPI     2. Card )";      SHOULD WE IMPLEMENT THIS and HOW??
 
-
-            confirmation:
+            char conf;
+            confirmation_b:
             cout<<"Confirm Payment? (Y/N) : " ;
             cin>>conf;
             
@@ -189,10 +220,40 @@ class buyer : public login {
             
                 default:
                     cout<<"Invalid input, retry";
-                    goto confirmation;
-            }    
+                    goto confirmation_b;
+            }   
         }
 
+        void payment(int choice){
+
+
+            cout<<"         -Sample amount is 10kg- \n";
+            cout<<"     Product ID      Quantity        Amount\n";
+            cout<<"        "<<choice<<"         10kg(default)     ₹ "<<(1000)*10<<"\n";     //Temporarily replaced pLast by 1000
+
+
+            char conf;
+            confirmation_s:
+            cout<<"Confirm Payment? (Y/N) : " ;
+            cin>>conf;
+            
+            switch (conf) {
+
+                case 'Y':
+                case 'y':
+                    cout<<"Payment Successful!";
+                    //something
+                     break;
+
+                case 'N':
+                case 'n':
+                    return;
+            
+                default:
+                    cout<<"Invalid input, retry";
+                    goto confirmation_s;
+            }   
+        }
 
         void disp_cart(){
             int total=0;
@@ -211,8 +272,19 @@ class buyer : public login {
             cout<<"Total Amount = "<<total<<"\n";
             
             }
-        } 
+        }
+
 };
+    
+              
+        
+
+    
+
+        
+        
+        
+        
 
 
 class sell : public login {
@@ -297,7 +369,9 @@ int calculateScore(const Crop& c, const string& soil, const string& water,
 int main() {
     string username;
 
-    loginpage:                  //LOGIN
+                 //LOGIN
+
+    loginpage:                 
     login l1;
     if(!l1.run())
         return 0;       //Exit Program
@@ -313,7 +387,9 @@ int main() {
     if(k==0)
         goto loginpage;
 
-    else if(k==1){              //BUY
+                  //BUY
+
+    else if(k==1){ 
         buyer b1;
         restartb:
         b1.disp_list();
@@ -322,7 +398,9 @@ int main() {
         }
 
         b1.transaction();
-        if(b1.temp1!=1 && b1.temp1!=2){
+
+
+        if(b1.temp1!=1 && b1.temp1!=2 && b1.temp1!=3){
             cout<<"Incorrect Input\n";
             goto restartb;
         }
@@ -332,12 +410,11 @@ int main() {
             goto restartb;
         }
 
-        b1.payment();
-        goto loginpage;   
+   
     }
 
-
-    else if(k==2){              //SELL
+                  //SELL
+    else if(k==2){
          sell s1;
          int ch;
         restarts:
