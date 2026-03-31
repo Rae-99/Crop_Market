@@ -210,7 +210,7 @@ class buyer : public login {
 
                 case 'Y':
                 case 'y':
-                    cout<<"Payment Successful!";
+                    cout<<"Payment Successful!\n\n";
                     //something
                      break;
 
@@ -241,7 +241,7 @@ class buyer : public login {
 
                 case 'Y':
                 case 'y':
-                    cout<<"Payment Successful!";
+                    cout<<"Payment Successful!\n\n";
                     //something
                      break;
 
@@ -276,16 +276,6 @@ class buyer : public login {
 
 };
     
-              
-        
-
-    
-
-        
-        
-        
-        
-
 
 class sell : public login {
 private:
@@ -409,7 +399,8 @@ int main() {
         if(b1.temp2==1||b1.temp2==3){
             goto restartb;
         }
-
+        
+        goto frontpage;
    
     }
 
