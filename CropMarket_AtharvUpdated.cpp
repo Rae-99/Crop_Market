@@ -136,9 +136,15 @@ class buyer : public login {
             ifstream info7("cropinfo.txt");
             
 
+            if(choice==0){
+                disp_cart();
+                disp_list();
+            }
 
-            switch(choice){
-                case 1:
+            else if(choice==-1)
+                return;
+            
+            else if(choice<6 && choice>0){
                 while(getline(info7,sellid,',') && 
                       getline(info7,cropname,',') && 
                       getline(info7,grade,',') && 
@@ -146,79 +152,7 @@ class buyer : public login {
                       getline(info7,r50,',') &&
                       getline(info7,r100,',') &&
                       getline(info7,r)){
-                    if(cropname=="1"){
-                        isAvailable=true;
-                        if(r=="0"){
-                            r="-";
-                        }
-                        if(r100=="0"){
-                            r100="-";
-                        }
-                        
-                        cout<<"\n"<<"Product ID : "<<sellid<<"\n"<<"Wheat\n"<<"Grade : "<<grade<<"\n"<<
-                        "Quantity available : "<<quant<<" kg\n"<<"Rate below 50kg : "<<r50<<"\n"<<
-                        "Rate between 50-100kg : "<<r100<<"\n"<<"Rate above 100kg : "<<r<<endl;
-                    }
-                    
-                }
-                break;
-
-                case 2:
-                while(getline(info7,sellid,',') && 
-                      getline(info7,cropname,',') && 
-                      getline(info7,grade,',') && 
-                      getline(info7,quant,',') &&
-                      getline(info7,r50,',') &&
-                      getline(info7,r100,',') &&
-                      getline(info7,r)){
-                    if(cropname=="2"){
-                        isAvailable=true;
-                        if(r=="0"){
-                            r="-";
-                        }
-                        if(r100=="0"){
-                            r100="-";
-                        }
-                        cout<<"\n"<<"Product ID : "<<sellid<<"\n"<<"Jowar\n"<<"Grade : "<<grade<<"\n"<<
-                        "Quantity available : "<<quant<<" kg\n"<<"Rate below 50kg : "<<r50<<"\n"<<
-                        "Rate between 50-100kg : "<<r100<<"\n"<<"Rate above 100kg : "<<r<<endl;
-                    }
-                }
-                
-                break;
-
-                case 3:
-                while(getline(info7,sellid,',') && 
-                      getline(info7,cropname,',') && 
-                      getline(info7,grade,',') && 
-                      getline(info7,quant,',') &&
-                      getline(info7,r50,',') &&
-                      getline(info7,r100,',') &&
-                      getline(info7,r)){
-                    if(cropname=="3"){
-                        isAvailable=true;
-                        if(r=="0"){
-                            r="-";
-                        }
-                        if(r100=="0"){
-                            r100="-";
-                        }
-                        cout<<"\n"<<"Product ID : "<<sellid<<"\n"<<"Bajra\n"<<"Grade : "<<grade<<"\n"<<
-                        "Quantity available : "<<quant<<" kg\n"<<"Rate below 50kg : "<<r50<<"\n"<<
-                        "Rate between 50-100kg : "<<r100<<"\n"<<"Rate above 100kg : "<<r<<endl;
-                    }
-                }
-                break;
-
-                case 4:
-                while(getline(info7,sellid,',') && 
-                      getline(info7,cropname,',') && 
-                      getline(info7,grade,',') && 
-                      getline(info7,quant,',') &&
-                      getline(info7,r50,',') &&
-                      getline(info7,r100,',') &&
-                      getline(info7,r)){
-                    if(cropname=="4"){
+                    if(cropname==to_string(choice)){        
                         isAvailable=true;
                         if(r=="0"){
                             r="-";
@@ -231,41 +165,7 @@ class buyer : public login {
                         "Rate between 50-100kg : "<<r100<<"\n"<<"Rate above 100kg : "<<r<<endl;
                     }
                 }
-                break;
-
-                case 5:
-                while(getline(info7,sellid,',') && 
-                      getline(info7,cropname,',') && 
-                      getline(info7,grade,',') && 
-                      getline(info7,quant,',') &&
-                      getline(info7,r50,',') &&
-                      getline(info7,r100,',') &&
-                      getline(info7,r)){
-                    if(cropname=="5"){
-                        isAvailable=true;
-                        if(r=="0"){
-                            r="-";
-                        }
-                        if(r100=="0"){
-                            r100="-";
-                        }
-                        cout<<"\n"<<"Product ID : "<<sellid<<"\n"<<"Barley\n"<<"Grade : "<<grade<<"\n"<<
-                        "Quantity available : "<<quant<<" kg\n"<<"Rate below 50kg : "<<r50<<"\n"<<
-                        "Rate between 50-100kg : "<<r100<<"\n"<<"Rate above 100kg : "<<r<<endl;
-                    }
-                }
-                break;
-
-                case -1:
-                return;
-                break;
-                
-
-                case 0:
-                disp_cart();
-                disp_list();
-                break;
-            }
+            }  
         }
 
         int getchoice(){        //Getter for choice
@@ -324,128 +224,131 @@ class buyer : public login {
                 cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item \n";
                 cin>>temp2;
             
-                    if(temp2==1){
+                if(temp2==1){
                     cart.push_back(vector<int>{choice, quantity, amount});
                     ofstream info13("history.txt",ios::app);
-        info13<<username<<","<<choice<<","<<quantity<< "," << amount<<"\n";
+                    info13<<username<<","<<choice<<","<<quantity<< "," << amount<<"\n";
 
-                   ifstream in("cropinfo.txt");
-    ofstream out("temp.txt");
+                    ifstream in("cropinfo.txt");
+                    ofstream out("temp.txt");
 
-    string line;
+                    string line;
 
-    while (getline(in, line)) {
-        stringstream ss(line);
+                    while (getline(in, line)) {
+                        stringstream ss(line);
 
-        string f1, f2, f3, f4, rest;
+                        string f1, f2, f3, f4, rest;
 
-        // Read fields
-        getline(ss, f1, ','); // id
-        getline(ss, f2, ','); // cropname
-        getline(ss, f3, ',');
-        getline(ss, f4, ','); // quant
+                        // Read fields
+                        getline(ss, f1, ','); // id
+                        getline(ss, f2, ','); // cropname
+                        getline(ss, f3, ',');
+                        getline(ss, f4, ','); // quant
 
         
 
-        if (f1 == prid) {
-            int quant = stoi(f4);
+                        if (f1 == prid) {
+                            int quant = stoi(f4);
             
 
-            if (quant - quantity == 0) {
-                f2 = "0";   // cropname = 0
-            } else {
-                quant -= quantity;
-                f4 = to_string(quant);
-            }
-        }
+                            if (quant - quantity == 0) {
+                                f2 = "0";   // cropname = 0
+                            } 
+                            else {
+                                quant -= quantity;
+                                f4 = to_string(quant);
+                            }
+                        }   
 
-        // Write updated data
-        out << f1 << "," << f2 << "," << f3 << "," << f4;
+                        // Write updated data
+                        out << f1 << "," << f2 << "," << f3 << "," << f4;
 
         
-        
-
-
         
 
 
+        
 
-        // Write remaining fields
-        while (getline(ss, rest, ',')) {
-            out << "," << rest;
-        }
 
-        out << endl;
-    }
 
-    in.close();
-    out.close();
+                        // Write remaining fields
+                        while (getline(ss, rest, ',')) {
+                            out << "," << rest;
+                        }
 
-    remove("cropinfo.txt");
-    rename("temp.txt", "cropinfo.txt");
+                        out << endl;
+                    }
+
+                    in.close();
+                    out.close();
+
+                    remove("cropinfo.txt");
+                    rename("temp.txt", "cropinfo.txt");
 
 
 
                    return;
-}
+                }
                 
                 else if(temp2==2){
                     cart.push_back(vector<int>{choice, quantity, amount});
                     ofstream info13("history.txt",ios::app);
-        info13<<username<<","<<choice<<","<<quantity<< "," << amount<<"\n";
+                    info13<<username<<","<<choice<<","<<quantity<< "," << amount<<"\n";
 
-                   ifstream in("cropinfo.txt");
-    ofstream out("temp.txt");
+                    ifstream in("cropinfo.txt");
+                    ofstream out("temp.txt");
 
-    string line;
+                    string line;
 
-    while (getline(in, line)) {
-        stringstream ss(line);
+                    while (getline(in, line)) {
+                        stringstream ss(line);
 
-        string f1, f2, f3, f4, rest;
+                        string f1, f2, f3, f4, rest;
 
-        // Read fields
-        getline(ss, f1, ','); // id
-        getline(ss, f2, ','); // cropname
-        getline(ss, f3, ',');
-        getline(ss, f4, ','); // quant
+                        // Read fields
+                        getline(ss, f1, ','); // id
+                        getline(ss, f2, ','); // cropname
+                        getline(ss, f3, ',');
+                        getline(ss, f4, ','); // quant
 
         
 
-        if (f1 == prid) {
-            int quant = stoi(f4);
+                        if (f1 == prid) {
+                            int quant = stoi(f4);
         
-            if (quant - quantity == 0) {
-                f2 = "0";   // cropname = 0
-            } else {
-                quant -= quantity;
-                f4 = to_string(quant);
-            }
-        }
+                            if (quant - quantity == 0) {
+                                f2 = "0";   // cropname = 0
+                            } 
+                            else {
+                                quant -= quantity;
+                                f4 = to_string(quant);
+                            }
+                        }
 
-        // Write updated data
-        out << f1 << "," << f2 << "," << f3 << "," << f4;
+                        // Write updated data
+                        out << f1 << "," << f2 << "," << f3 << "," << f4;
 
     
 
-        // Write remaining fields
-        while (getline(ss, rest, ',')) {
-            out << "," << rest;
-        }
+                        // Write remaining fields
+                        while (getline(ss, rest, ',')) {
+                            out << "," << rest;
+                        }
 
-        out << endl;
-    }
+                        out << endl;
+                    }
 
-    in.close();
-    out.close();
+                    in.close();
+                    out.close();
 
-    remove("cropinfo.txt");
-    rename("temp.txt", "cropinfo.txt");
+                    remove("cropinfo.txt");
+                    rename("temp.txt", "cropinfo.txt");
 
 
 
                    return;
-        }
+                }
+                
                 else if(temp2==3){
                     return;
                 }
