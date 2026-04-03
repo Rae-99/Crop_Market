@@ -10,6 +10,16 @@ using namespace std;
 
 
 class login {
+
+private:
+    string encrypt(string text){                // XOR Obfuscation       
+        char key = 7;
+        for (int i = 0; i < text.length(); i++){
+            text[i] = text[i] ^ key;
+        }
+        return text;
+    }
+
 protected:
     unordered_map<string, string> users;
     string password;
@@ -41,7 +51,7 @@ string username;
                     while(getline(info,storedname,',') && 
                           getline(info,storedpassword)){
 
-                    if (storedname==username && storedpassword==password) {
+                    if (storedname==username && encrypt(storedpassword)==password) {
                         cout << "Hello " << username << "!! Welcome Back\n";
                         
                         isCorrect=true;
@@ -85,7 +95,7 @@ string username;
                             users[username] = password;
                             cout << "Your account has been created\n";
                             ofstream info("userinfo.txt",ios::app);
-                            info<<username<<","<<password<<endl;
+                            info<<username<<","<<encrypt(password)<<endl;
 
                         } else {
                             cout << "Passwords don't match. Try again.\n";
@@ -135,6 +145,16 @@ class buyer : public login {
 
             if(choice==0){
                 disp_cart();
+                if(!cart.empty()){
+                    char a;
+                    cout<<"Do you want to checkout? (Y/N)\n";
+                    cin>>a;
+                    if(a=='Y' || a=='y'){
+                        payment();
+                        return;
+                    }
+                }
+
                 disp_list();
             }
 
@@ -164,10 +184,7 @@ class buyer : public login {
                 }
                 info7.close();
                 
-                if(isAvailable){
-                    transaction();
-                }
-                else{
+                if(!isAvailable){
                     cout<<"Product not available!\n";
                 }
             }  
@@ -252,7 +269,7 @@ class buyer : public login {
                     else{
                         amount=num1*quantity;    
                     }
-                    
+                    info9.close();
                     cout<<"Total amount = ₹"<<amount<<endl;
                     
                     cout<<"\n1. Add to cart and buy more \n2. Checkout \n3. Discard this item \n";
@@ -262,7 +279,7 @@ class buyer : public login {
                     if(temp2==1){
                         cart.push_back({stoi(prid), quantity, amount});
                         ofstream info13("history.txt",ios::app);
-                        info13<<username<<","<<prid<<","<<quantity<< "," << amount<<"\n";
+                        info13<<username<<","<<cropname<<","<<quantity<< "," << amount<<"\n";
                         info13.close();
                         
                         // Update inventory
@@ -297,6 +314,7 @@ class buyer : public login {
                         out.close();
                         remove("cropinfo.txt");
                         rename("temp.txt", "cropinfo.txt");
+                        
                         
                         cout<<"Item added to cart!\n";
                         return;
@@ -304,7 +322,7 @@ class buyer : public login {
                     else if(temp2==2){
                         cart.push_back({stoi(prid), quantity, amount});
                         ofstream info13("history.txt",ios::app);
-                        info13<<username<<","<<prid<<","<<quantity<< "," << amount<<"\n";
+                        info13<<username<<","<<cropname<<","<<quantity<< "," << amount<<"\n";
                         info13.close();
                         
                         // Update inventory
@@ -339,8 +357,6 @@ class buyer : public login {
                         out.close();
                         remove("cropinfo.txt");
                         rename("temp.txt", "cropinfo.txt");
-                        
-                        payment(prid, cart);
                     }
                     else if(temp2==3){
                         return;
@@ -375,8 +391,8 @@ class buyer : public login {
                   getline(info8,r)){
                 if(prid==id){
                     found = true;
-                    int num3 = stoi(r);
-                    amount = num3 * 10;  // 10kg sample
+                    int num3 = stoi(r50);
+                    amount = num3 * 10;                 // 10kg sample
                     
                     cout<<"\nProduct Found!\n";
                     cout<<"Crop: "<<cropname<<"\n";
@@ -390,7 +406,7 @@ class buyer : public login {
                         info8.close();
                         return;
                     }
-                    
+                    info8.close(); 
                     cout<<"\n1. Checkout     2. Discard this item \n";
                     cout<<"Enter your choice: ";
                     cin>>temp2;
@@ -431,7 +447,7 @@ class buyer : public login {
                         
                         // Save to history
                         ofstream info13("history.txt",ios::app);
-                        info13<<username<<","<<prid<<","<<10<< "," << amount<<"\n";
+                        info13<<username<<","<<cropname<<","<<10<< "," << amount<<"\n";
                         info13.close();
                         
                         payment(prid);
@@ -449,29 +465,8 @@ class buyer : public login {
             }
         }
 
-        void payment(string prid, vector<vector<int>> cart){
-            disp_cart();
-
-            char conf;
-            confirmation_b:
-            cout<<"Confirm Payment? (Y/N) : " ;
-            cin>>conf;
-            
-            switch (conf) {
-                case 'Y':
-                case 'y':
-                    cout<<"Payment Successful!\n\n";
-                    cart.clear();
-                    break;
-                case 'N':
-                case 'n':
-                    return;
-                default:
-                    cout<<"Invalid input, retry\n";
-                    goto confirmation_b;
-            }   
-        }
-
+        
+        //called for sample
         void payment(string prid){
             cout<<"\n         -Sample amount is 10kg- \n";
             cout<<"     Product ID      Quantity        Amount\n";
@@ -496,7 +491,7 @@ class buyer : public login {
             }   
         }
         
-        // Checkout method for cart
+        // Checkout method for cart and bulk
         void payment(){
             if(cart.empty()){
                 cout<<"Cart is empty! Nothing to checkout.\n";
@@ -529,7 +524,7 @@ class buyer : public login {
             cout<<"\n     *****Your Order Summary*******\n\n";
 
             if(cart.size()==0)
-                cout<<"Your Cart is empty\n";
+                cout<<"Your Cart is empty\n\n";
             else{
                 cout<<"     Product ID        Quantity        Amount\n";
                 for (int i=0; i<cart.size(); i++){
