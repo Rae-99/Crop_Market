@@ -1077,8 +1077,7 @@ int main() {
             cout << "|   help you get MAXIMUM YIELD!!            |\n";
             cout << "|                                           |\n";
             cout << "+-------------------------------------------+\n";
-            cout << "| Soil Fertility (h=High  m=Moderate  l=Low) : ";
-            cin.ignore();  
+            cout << "| Soil Fertility (h=High  m=Moderate  l=Low) : "; 
             cin >> soil;
             cout << "+-------------------------------------------+\n";
             cout << "| Water Supply   (h=High  m=Moderate  l=Low) : ";
